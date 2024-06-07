@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  backend:
+    container_name: api-banco
+    image: node:latest
+    build: .
+    env_file: 
+      - .env
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app/
+    working_dir: /app
+    command: sh -c "npm run dev"
