@@ -70,8 +70,3 @@ Diferenciais:
 
 ## Comandos para rodar o JSON Server
 
-## Mudanças
-
-
-## Estudo de caso
-
