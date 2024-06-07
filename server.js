@@ -1,3 +1,8 @@
-import express from 'express';
+import 'dotenv/config'
+import app from './src/app.js'
 
-const app = express();
+const PORT = 3000
+
+app.listen(PORT, () => {
+  console.log('Servidor escutando')
+})
