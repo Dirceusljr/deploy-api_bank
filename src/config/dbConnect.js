@@ -8,4 +8,12 @@ const dbConnection = mysql.createConnection({
     database: process.env.DB_NAME
 })
 
+dbConnection.on('error', (error) => {
+    console.error('Erro na conexão com o bando de dados: ', error)
+})
+
+dbConnection.once('open', () => {
+    console.log('Conexão com o banco de dados efetuada com sucesso!')
+})
+
 export default dbConnection
