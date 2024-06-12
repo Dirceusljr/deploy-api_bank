@@ -1,17 +1,17 @@
 CREATE DATABASE IF NOT EXISTS bank_db;
 USE bank_db;
 
-CREATE TABLE IF NOT EXISTS accounts (
+CREATE TABLE IF NOT EXISTS conta (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    account_number BIGINT NOT NULL,
-    balance DECIMAL(10, 2) NOT NULL
+    conta_id BIGINT NOT NULL,
+    saldo DECIMAL(10, 2) NOT NULL
 );
 
-INSERT INTO accounts (account_number, balance) VALUES
-(1234567890, 100.00),
-(2345678901, 200.00),
-(3456789012, 300.00),
-(4567890123, 400.00),
-(5678901234, 500.00);
+INSERT INTO conta (conta_id, saldo) VALUES
+(1234, 100.00),
+(0502, 200.00),
+(1109, 300.00),
+(2301, 400.00),
+(2212, 500.00);
 
 -- docker exec -i database-banco mariadb -u root -pr00t bank_db < src/config/account.sql
