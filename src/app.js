@@ -1,7 +1,20 @@
 import express from 'express';
+import dbConnection from './config/dbConnect.js';
+
+const conexao = dbConnection
+
+conexao.on('error', (error) => {
+    console.error('Erro na conexão com o bando de dados: ', error)
+})
+
+conexao.once('open', () => {
+    console.log('Conexão com o banco de dados efetuada com sucesso!')
+})
 
 const app = express();
 app.use(express.json());
+
+
 
 const conta = []
 const transacao = []
