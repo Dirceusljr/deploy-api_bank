@@ -10,4 +10,4 @@ CREATE TABLE IF NOT EXISTS transacao (
         REFERENCES conta(id)
 );
 
--- docker exec -i database-banco mariadb -u root -pr00t bank_db < src/config/transaction.sql
+-- docker exec -i database-banco mariadb -u root -pr00t bank_db < src/config/transacao.sql
