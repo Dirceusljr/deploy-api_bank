@@ -220,7 +220,7 @@ Antes de começar, certifique-se de ter o seguinte instalado:
     Esses comandos irão criar as tabelas conta e transacao no banco de dados bank_db. A tabela conta terá os seguintes valores iniciais:
     
     
-	|iid|conta_id|saldo|
+	|id|conta_id|saldo|
 	|--|--|--|
 	| 1 | 9876  | 100.00  |
 	| 2 |  3258 |200.00  |
