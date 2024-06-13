@@ -14,4 +14,4 @@ INSERT INTO conta (conta_id, saldo) VALUES
 (2301, 400.00),
 (2212, 500.00);
 
--- docker exec -i database-banco mariadb -u root -pr00t bank_db < src/config/account.sql
+-- docker exec -i database-banco mariadb -u root -pr00t bank_db < src/config/conta.sql
