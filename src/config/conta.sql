@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS conta (
 );
 
 INSERT INTO conta (conta_id, saldo) VALUES
-(1234, 100.00),
-(0502, 200.00),
+(9876, 100.00),
+(3258, 200.00),
 (1109, 300.00),
 (2301, 400.00),
 (2212, 500.00);

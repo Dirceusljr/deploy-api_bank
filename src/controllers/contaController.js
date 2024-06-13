@@ -10,7 +10,7 @@ class contaController {
         queryGet = `SELECT * FROM conta WHERE conta_id = ${id};`
         }
         db.query(queryGet, function (err, results) {
-            if (err) {
+            if (results.length === 0) {
                 console.error('Erro ao realizar sua pesquisa: ', err)
                 return res.status(404).json({ error: 'Item não encontrado.' })
             }

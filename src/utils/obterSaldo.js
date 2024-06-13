@@ -9,7 +9,6 @@ const obterSaldo = (conta_id) => {
                 reject('Item não encontrado.')
             }
             const saldoRecebido = results[0].saldo
-            console.log(saldoRecebido, typeof(saldoRecebido));
             resolve(saldoRecebido)
         })
     })
