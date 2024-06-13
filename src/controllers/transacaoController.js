@@ -1,4 +1,7 @@
 import db from '../config/dbConnect.js';
+import atualizarSaldo from '../utils/atualizarSaldo.js';
+import obterSaldo from '../utils/obterSaldo.js';
+import taxa from '../utils/taxa.js';
 
 class transacaoController {
 
@@ -7,7 +10,7 @@ class transacaoController {
         id = parseInt(id)
         let queryGet = 'SELECT t.id, t.forma_pagamento, c.conta_id, t.valor, t.status from transacao as t  INNER JOIN conta as c ON t.conta_id = c.id;'
         if (id) {
-        queryGet = `SELECT t.id, t.forma_pagamento, c.conta_id, t.valor, t.status from transacao as t  INNER JOIN conta as c ON t.conta_id = c.id WHERE c.conta_id = ${id};`
+            queryGet = `SELECT t.id, t.forma_pagamento, c.conta_id, t.valor, t.status from transacao as t  INNER JOIN conta as c ON t.conta_id = c.id WHERE c.conta_id = ${id};`
         }
 
         db.query(queryGet, function (err, results) {
@@ -26,23 +29,49 @@ class transacaoController {
         })
     }
 
-    static cadastrarTransacao(req, res, next) {
-        const { forma_pagamento, conta_id, valor } = req.body;
-        
-        const queryPost = `INSERT INTO transacao (forma_pagamento, conta_id, valor) VALUES ('${forma_pagamento}', (SELECT id FROM conta WHERE conta_id = ${conta_id}), ${valor});`;
+    static async cadastrarTransacao(req, res, next) {
+        let { forma_pagamento, conta_id, valor } = req.body;
+        conta_id = parseInt(conta_id);
+        valor = parseFloat(valor);
         if (!forma_pagamento || !conta_id || !valor) {
             res.status(400).json({
                 message: "Os campos forma_pagamento, conta_id e valor são obrigatórios",
                 status: 400
             })
         }
-        db.query(queryPost, function (error, results) {
-            if (error) {
-                console.error('Erro ao inserir os dados no banco de dados: ', error)
-                return res.status(500).json({ error: 'Erro ao inserir os dados no banco de dados.' })
-            }
-            res.status(201).json({ message: 'Dados inseridos com sucesso' })
-        })
+
+        const valorTaxado = taxa(forma_pagamento, valor);
+        const saldoAtual = await obterSaldo(conta_id);
+        if (saldoAtual > valorTaxado) {
+            const queryPost = `INSERT INTO transacao (forma_pagamento, conta_id, valor) VALUES ('${forma_pagamento}', (SELECT id FROM conta WHERE conta_id = ${conta_id}), ${valorTaxado});`;
+
+            db.query(queryPost, function (error, results) {
+                if (error) {
+                    console.error('Erro ao inserir os dados no banco de dados: ', error)
+                    return res.status(500).json({ error: 'Erro ao inserir os dados no banco de dados.' })
+                }
+
+                const saldoAtualizado = saldoAtual - valorTaxado;
+                atualizarSaldo(conta_id, saldoAtualizado);
+                return res.status(201).json({
+                    message: 'Operação realizada com sucesso',
+                    operação: {
+                        forma_pagamento: forma_pagamento,
+                        conta_id: conta_id,
+                        valor: valor,
+                        saldo_atualizado: saldoAtualizado
+                    }
+                })
+            })
+        } else {
+            return res.status(404).json({
+                message: 'Saldo insuficiente',
+                status: 404,
+                saldo: saldoAtual
+            })
+        }
+
+
     }
 
 }
