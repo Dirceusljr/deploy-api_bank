@@ -190,6 +190,11 @@ Antes de começar, certifique-se de ter o seguinte instalado:
     ```bash
     cd nome-do-repositorio
     ```
+3. Instale as dependências do projeto com o comando abaixo:
+
+    ```bash
+    npm i
+    ```
 
 ## Configuração
 
