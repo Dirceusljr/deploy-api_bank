@@ -3,7 +3,8 @@ import db from '../config/dbConnect.js';
 class contaController {
 
     static listarContas(req, res, next) {
-        let id = req.query.id
+        try {
+            let id = req.query.id
         id = parseInt(id)
         let queryGet = 'SELECT * FROM conta;'
         if (id) {
@@ -22,10 +23,14 @@ class contaController {
             })
             res.status(200).json(resultadoFinal)
         })
+        } catch (error) {
+          next(error)  
+        }
     }
 
     static cadastrarConta(req, res, next) {
-        const { conta_id, saldo } = req.body;
+        try {
+            const { conta_id, saldo } = req.body;
         const queryPost = `INSERT INTO conta (conta_id, saldo) VALUES (${conta_id}, ${saldo});`;
         if (!conta_id || !saldo) {
             res.status(400).json({
@@ -40,6 +45,9 @@ class contaController {
             }
             res.status(201).json({ message: 'Dados inseridos com sucesso' })
         })
+        } catch (error) {
+            next(error)
+        }
     }
 
 }
