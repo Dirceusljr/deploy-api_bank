@@ -219,8 +219,8 @@ Antes de começar, certifique-se de ter o seguinte instalado:
 2. Abra outro terminal e use os seguintes comandos: 
     ```bash
     source .env
-    docker exec -i database-banco mariadb -u root -p${DB_ROOT_PASSWORD} bank_db < src/config/conta.sql
-    docker exec -i database-banco mariadb -u root -p${DB_ROOT_PASSWORD} bank_db < src/config/transacao.sql
+    docker exec -i database-banco mariadb -u root -p${DB_ROOT_PASSWORD} ${DB_NAME} < src/config/conta.sql
+    docker exec -i database-banco mariadb -u root -p${DB_ROOT_PASSWORD} ${DB_NAME} < src/config/transacao.sql
     ```
     Esses comandos irão criar as tabelas conta e transacao no banco de dados bank_db. A tabela conta terá os seguintes valores iniciais:
     
