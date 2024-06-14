@@ -7,10 +7,10 @@ const verificaContaExistente = (conta_id) => {
             if (err) {
                 reject('Erro ao realizar sua pesquisa.')
             }
-                const contaExiste = results[0].contaExistente
-                resolve(contaExiste)
-            })
+            const contaExiste = results[0].contaExistente
+            resolve(contaExiste)
         })
-    }
+    })
+}
 
 export default verificaContaExistente;
