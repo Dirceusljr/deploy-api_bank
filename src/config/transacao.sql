@@ -1,6 +1,3 @@
-CREATE DATABASE IF NOT EXISTS bank_db;
-USE bank_db;
-
 CREATE TABLE IF NOT EXISTS transacao (
     id INT AUTO_INCREMENT PRIMARY KEY,
     forma_pagamento ENUM('P', 'C', 'D') NOT NULL,

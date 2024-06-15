@@ -1,7 +1,7 @@
 import db from '../config/dbConnect.js';
 import atualizarSaldo from '../utils/atualizarSaldo.js';
 import obterSaldo from '../utils/obterSaldo.js';
-import taxa from '../utils/taxa.js';
+import taxa from '../utils/obterTaxa.js';
 
 class transacaoController {
 
