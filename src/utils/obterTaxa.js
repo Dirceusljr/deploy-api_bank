@@ -1,20 +1,20 @@
-const taxa = (forma_pagamento, valor) => {
-    let taxa = 0;
-    switch (forma_pagamento) {
-        case 'C':
-            taxa = 0.05;
-            break;
-        case 'D':
-            taxa = 0.03;
-            break;
-        case 'P':
-            taxa = 0;
-            break;
-        default:
-            throw new Error('Forma de pagamento inválida');
-    }
+import db from "../config/dbConnect.js"
 
-    return (valor * (1 + taxa)).toFixed(2);
+const obterTaxa = (forma_pagamento) => {
+    return new Promise((resolve, reject) => {
+        const queryGetTaxa = `SELECT id, percentual from taxa WHERE taxa = '${forma_pagamento}';`
+        db.query(queryGetTaxa, function (err, results) {
+            if (err) {
+                console.error('Erro ao realizar sua pesquisa: ', err)
+                reject('Item não encontrado.')
+            }
+            const taxaPercentual = {
+                id: results[0].id,
+                percentual: results[0].percentual
+            }
+            resolve(taxaPercentual)
+        })
+    })
 }
 
-export default taxa;
+export default obterTaxa;
