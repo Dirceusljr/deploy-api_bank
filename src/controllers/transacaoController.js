@@ -1,7 +1,7 @@
 import db from '../config/dbConnect.js';
 import atualizarSaldo from '../utils/atualizarSaldo.js';
 import obterSaldo from '../utils/obterSaldo.js';
-import taxa from '../utils/taxa.js';
+import taxa from '../utils/obterTaxa.js';
 
 class transacaoController {
 
@@ -45,10 +45,12 @@ class transacaoController {
                 })
             }
 
-            const valorTaxado = taxa(forma_pagamento, valor);
+            const taxaPercentual = await taxa(forma_pagamento);
+            console.log(taxaPercentual)
+            const valorTaxado = (valor * (1 + taxaPercentual.percentual)).toFixed(2);
             const saldoAtual = await obterSaldo(conta_id);
             if (saldoAtual > valorTaxado) {
-                const queryPost = `INSERT INTO transacao (forma_pagamento, conta_id, valor) VALUES ('${forma_pagamento}', (SELECT id FROM conta WHERE conta_id = ${conta_id}), ${valorTaxado});`;
+                const queryPost = `INSERT INTO transacao (forma_pagamento, conta_id, valor) VALUES ('${taxaPercentual.id}', (SELECT id FROM conta WHERE conta_id = ${conta_id}), ${valor});`;
 
                 db.query(queryPost, function (error, results) {
                     if (error) {
